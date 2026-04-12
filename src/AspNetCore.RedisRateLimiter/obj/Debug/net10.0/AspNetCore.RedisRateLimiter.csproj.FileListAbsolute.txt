@@ -1,0 +1,14 @@
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.csproj.AssemblyReference.cache
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.AssemblyInfoInputs.cache
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.AssemblyInfo.cs
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.csproj.CoreCompileInputs.cache
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\bin\Debug\net10.0\AspNetCore.RedisRateLimiter.deps.json
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\bin\Debug\net10.0\AspNetCore.RedisRateLimiter.dll
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\bin\Debug\net10.0\AspNetCore.RedisRateLimiter.pdb
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\bin\Debug\net10.0\AspNetCore.RedisRateLimiter.xml
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.dll
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\refint\AspNetCore.RedisRateLimiter.dll
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.xml
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.pdb
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\ref\AspNetCore.RedisRateLimiter.dll

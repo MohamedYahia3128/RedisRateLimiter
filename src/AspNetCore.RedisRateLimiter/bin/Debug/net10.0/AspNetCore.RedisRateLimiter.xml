@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AspNetCore.RedisRateLimiter</name>
+    </assembly>
+    <members>
+        <member name="T:AspNetCore.RedisRateLimiter.Core.RedisLuaRateLimiter">
+            <summary>
+            Performs atomic rate limit evaluation against Redis using a Lua script.
+            Implements a sliding window algorithm to ensure accurate, race-condition-free request counting.
+            </summary>
+            <remarks>
+            Author: B.Yahia
+            </remarks>
+        </member>
+        <member name="F:AspNetCore.RedisRateLimiter.Core.RedisLuaRateLimiter.SlidingWindowLuaScript">
+             <summary>
+             The Lua script implementing a sliding window rate limiter.
+             
+             KEYS[1] = the rate limit key for this client
+             ARGV[1] = current timestamp in milliseconds
+             ARGV[2] = window size in milliseconds
+             ARGV[3] = permit limit (max requests allowed in window)
+             ARGV[4] = unique request identifier (timestamp + random, for sorted set member)
+            
+             Returns: { allowed (0|1), remaining, retryAfterMs }
+             </summary>
+        </member>
+        <member name="M:AspNetCore.RedisRateLimiter.Core.RedisLuaRateLimiter.EvaluateAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Evaluates whether the specified client is within their rate limit.
+            </summary>
+            <param name="clientId">The unique client identifier.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <returns>A <see cref="T:AspNetCore.RedisRateLimiter.Core.RateLimitResult"/> containing the evaluation outcome.</returns>
+        </member>
+        <member name="T:AspNetCore.RedisRateLimiter.Core.RateLimitResult">
+            <summary>
+            Represents the result of a rate limit evaluation.
+            </summary>
+        </member>
+        <member name="P:AspNetCore.RedisRateLimiter.Core.RateLimitResult.IsAllowed">
+            <summary>
+            Gets a value indicating whether the request is allowed.
+            </summary>
+        </member>
+        <member name="P:AspNetCore.RedisRateLimiter.Core.RateLimitResult.Remaining">
+            <summary>
+            Gets the number of remaining requests in the current window.
+            </summary>
+        </member>
+        <member name="P:AspNetCore.RedisRateLimiter.Core.RateLimitResult.RetryAfter">
+            <summary>
+            Gets the duration the client should wait before retrying.
+            Only meaningful when <see cref="P:AspNetCore.RedisRateLimiter.Core.RateLimitResult.IsAllowed"/> is <c>false</c>.
+            </summary>
+        </member>
+        <member name="T:AspNetCore.RedisRateLimiter.Extensions.RateLimiterApplicationBuilderExtensions">
+            <summary>
+            Extension methods for adding the Redis rate limiting middleware to the ASP.NET Core request pipeline.
+            </summary>
+            <remarks>
+            Author: B.Yahia
+            </remarks>
+        </member>
+        <member name="M:AspNetCore.RedisRateLimiter.Extensions.RateLimiterApplicationBuilderExtensions.UseRedisRateLimiting(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds the Redis rate limiting middleware to the application's request pipeline.
+            </summary>
+            <param name="app">The application builder.</param>
+            <returns>The <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> for chaining.</returns>
+            <example>
+            <code>
+            var app = builder.Build();
+            app.UseRedisRateLimiting();
+            app.MapControllers();
+            app.Run();
+            </code>
+            </example>
+        </member>
+        <member name="T:AspNetCore.RedisRateLimiter.Extensions.RateLimiterServiceCollectionExtensions">
+            <summary>
+            Extension methods for registering Redis rate limiting services in the DI container.
+            </summary>
+            <remarks>
+            Author: B.Yahia
+            </remarks>
+        </member>
+        <member name="M:AspNetCore.RedisRateLimiter.Extensions.RateLimiterServiceCollectionExtensions.AddRedisRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Action{AspNetCore.RedisRateLimiter.RateLimiterOptions})">
+            <summary>
+            Adds Redis-backed rate limiting services to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services">The service collection to add services to.</param>
+            <param name="redisConnectionString">The Redis connection string (e.g., <c>"localhost:6379"</c>).</param>
+            <param name="configureOptions">An optional action to configure <see cref="T:AspNetCore.RedisRateLimiter.RateLimiterOptions"/>.</param>
+            <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
+            <example>
+            <code>
+            builder.Services.AddRedisRateLimiting("localhost:6379", options =>
+            {
+                options.PermitLimit = 60;
+                options.Window = TimeSpan.FromMinutes(1);
+                options.ClientIdExtractor = ctx => ctx.Request.Headers["X-API-Key"].FirstOrDefault() ?? "anonymous";
+            });
+            </code>
+            </example>
+        </member>
+        <member name="M:AspNetCore.RedisRateLimiter.Extensions.RateLimiterServiceCollectionExtensions.AddRedisRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,StackExchange.Redis.IConnectionMultiplexer,System.Action{AspNetCore.RedisRateLimiter.RateLimiterOptions})">
+            <summary>
+            Adds Redis-backed rate limiting services using an existing <see cref="T:StackExchange.Redis.IConnectionMultiplexer"/> instance.
+            </summary>
+            <param name="services">The service collection to add services to.</param>
+            <param name="connectionMultiplexer">An existing Redis connection multiplexer.</param>
+            <param name="configureOptions">An optional action to configure <see cref="T:AspNetCore.RedisRateLimiter.RateLimiterOptions"/>.</param>
+            <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
+        </member>
+        <member name="T:AspNetCore.RedisRateLimiter.Extensions.RateLimitingMiddleware">
+            <summary>
+            ASP.NET Core middleware that enforces Redis-backed rate limiting on incoming HTTP requests.
+            </summary>
+            <remarks>
+            Author: B.Yahia
+            </remarks>
+        </member>
+        <member name="T:AspNetCore.RedisRateLimiter.RateLimiterOptions">
+            <summary>
+            Configuration options for the Redis rate limiting middleware.
+            </summary>
+            <remarks>
+            Author: B.Yahia
+            </remarks>
+        </member>
+        <member name="P:AspNetCore.RedisRateLimiter.RateLimiterOptions.PermitLimit">
+            <summary>
+            Gets or sets the maximum number of requests permitted within the <see cref="P:AspNetCore.RedisRateLimiter.RateLimiterOptions.Window"/>.
+            Defaults to <c>100</c>.
+            </summary>
+        </member>
+        <member name="P:AspNetCore.RedisRateLimiter.RateLimiterOptions.Window">
+            <summary>
+            Gets or sets the time window for rate limiting.
+            Defaults to <c>1 minute</c>.
+            </summary>
+        </member>
+        <member name="P:AspNetCore.RedisRateLimiter.RateLimiterOptions.ClientIdExtractor">
+            <summary>
+            Gets or sets the function used to extract a unique client identifier from the incoming HTTP request.
+            Defaults to extracting the client's remote IP address.
+            </summary>
+            <example>
+            <code>
+            // Use an API key header as the client identifier:
+            options.ClientIdExtractor = context =>
+                context.Request.Headers["X-API-Key"].FirstOrDefault() ?? "anonymous";
+            </code>
+            </example>
+        </member>
+        <member name="P:AspNetCore.RedisRateLimiter.RateLimiterOptions.RedisKeyPrefix">
+            <summary>
+            Gets or sets the Redis key prefix used for rate limit counters.
+            Defaults to <c>"rl:"</c>.
+            </summary>
+        </member>
+        <member name="P:AspNetCore.RedisRateLimiter.RateLimiterOptions.RateLimitExceededMessage">
+            <summary>
+            Gets or sets the response message returned when a client exceeds the rate limit.
+            Defaults to a standard JSON error payload.
+            </summary>
+        </member>
+    </members>
+</doc>

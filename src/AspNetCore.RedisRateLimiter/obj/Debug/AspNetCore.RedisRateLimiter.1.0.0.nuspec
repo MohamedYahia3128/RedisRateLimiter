@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>AspNetCore.RedisRateLimiter</id>
+    <version>1.0.0</version>
+    <authors>B.Yahia</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <readme>README.md</readme>
+    <description>A production-grade, Redis-backed API rate limiting middleware for ASP.NET Core. Uses atomic Lua scripts to implement sliding window rate limiting with zero race conditions.</description>
+    <tags>aspnetcore redis rate-limiting middleware lua api throttle</tags>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net10.0">
+        <dependency id="StackExchange.Redis" version="2.12.14" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net10.0">
+        <frameworkReference name="Microsoft.AspNetCore.App" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\bin\Debug\net10.0\AspNetCore.RedisRateLimiter.dll" target="lib\net10.0\AspNetCore.RedisRateLimiter.dll" />
+    <file src="C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\bin\Debug\net10.0\AspNetCore.RedisRateLimiter.xml" target="lib\net10.0\AspNetCore.RedisRateLimiter.xml" />
+    <file src="C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\README.md" target="\README.md" />
+  </files>
+</package>
