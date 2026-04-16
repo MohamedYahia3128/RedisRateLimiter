@@ -24,7 +24,7 @@ public sealed class RateLimiterOptions
 
     /// <summary>
     /// Gets or sets the function used to extract a unique client identifier from the incoming HTTP request.
-    /// Defaults to extracting the client's remote IP address.
+    /// Defaults to extracting the client's true IP address, respecting X-Forwarded-For headers from proxies.
     /// </summary>
     /// <example>
     /// <code>
@@ -34,7 +34,16 @@ public sealed class RateLimiterOptions
     /// </code>
     /// </example>
     public Func<HttpContext, string> ClientIdExtractor { get; set; } = context =>
-        context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+    {
+        var forwardedFor = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+        
+        if (!string.IsNullOrWhiteSpace(forwardedFor))
+        {
+            return forwardedFor.Split(',')[0].Trim();
+        }
+
+        return context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+    };
 
     /// <summary>
     /// Gets or sets the Redis key prefix used for rate limit counters.

@@ -8,6 +8,7 @@
             <summary>
             Performs atomic rate limit evaluation against Redis using a Lua script.
             Implements a sliding window algorithm to ensure accurate, race-condition-free request counting.
+            Utilizes the internal Redis clock to eliminate distributed clock drift across horizontally scaled API nodes.
             </summary>
             <remarks>
             Author: B.Yahia
@@ -18,10 +19,12 @@
              The Lua script implementing a sliding window rate limiter.
              
              KEYS[1] = the rate limit key for this client
-             ARGV[1] = current timestamp in milliseconds
-             ARGV[2] = window size in milliseconds
-             ARGV[3] = permit limit (max requests allowed in window)
-             ARGV[4] = unique request identifier (timestamp + random, for sorted set member)
+             ARGV[1] = window size in milliseconds
+             ARGV[2] = permit limit (max requests allowed in window)
+             ARGV[3] = unique request identifier (random string/number, for sorted set member)
+            
+             Note: The current timestamp is generated internally by Redis using the TIME command 
+             to ensure consistency across distributed nodes.
             
              Returns: { allowed (0|1), remaining, retryAfterMs }
              </summary>
@@ -145,7 +148,7 @@
         <member name="P:AspNetCore.RedisRateLimiter.RateLimiterOptions.ClientIdExtractor">
             <summary>
             Gets or sets the function used to extract a unique client identifier from the incoming HTTP request.
-            Defaults to extracting the client's remote IP address.
+            Defaults to extracting the client's true IP address, respecting X-Forwarded-For headers from proxies.
             </summary>
             <example>
             <code>

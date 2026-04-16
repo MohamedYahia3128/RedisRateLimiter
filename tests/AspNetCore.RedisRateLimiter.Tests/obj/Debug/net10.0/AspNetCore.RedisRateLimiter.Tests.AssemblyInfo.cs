@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AspNetCore.RedisRateLimiter.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3fc7e2cfc2d3ac94bfcab3210869564d04a38927")]
 [assembly: System.Reflection.AssemblyProductAttribute("AspNetCore.RedisRateLimiter.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AspNetCore.RedisRateLimiter.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

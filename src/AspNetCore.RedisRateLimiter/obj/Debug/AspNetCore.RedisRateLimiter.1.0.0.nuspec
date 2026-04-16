@@ -9,7 +9,7 @@
     <readme>README.md</readme>
     <description>A production-grade, Redis-backed API rate limiting middleware for ASP.NET Core. Uses atomic Lua scripts to implement sliding window rate limiting with zero race conditions.</description>
     <tags>aspnetcore redis rate-limiting middleware lua api throttle</tags>
-    <repository type="git" />
+    <repository type="git" commit="3fc7e2cfc2d3ac94bfcab3210869564d04a38927" />
     <dependencies>
       <group targetFramework="net10.0">
         <dependency id="StackExchange.Redis" version="2.12.14" exclude="Build,Analyzers" />

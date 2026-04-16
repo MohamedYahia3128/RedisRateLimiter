@@ -6,6 +6,7 @@ namespace AspNetCore.RedisRateLimiter.Core;
 /// <summary>
 /// Performs atomic rate limit evaluation against Redis using a Lua script.
 /// Implements a sliding window algorithm to ensure accurate, race-condition-free request counting.
+/// Utilizes the internal Redis clock to eliminate distributed clock drift across horizontally scaled API nodes.
 /// </summary>
 /// <remarks>
 /// Author: B.Yahia
@@ -19,19 +20,24 @@ internal sealed class RedisLuaRateLimiter
     /// The Lua script implementing a sliding window rate limiter.
     /// 
     /// KEYS[1] = the rate limit key for this client
-    /// ARGV[1] = current timestamp in milliseconds
-    /// ARGV[2] = window size in milliseconds
-    /// ARGV[3] = permit limit (max requests allowed in window)
-    /// ARGV[4] = unique request identifier (timestamp + random, for sorted set member)
+    /// ARGV[1] = window size in milliseconds
+    /// ARGV[2] = permit limit (max requests allowed in window)
+    /// ARGV[3] = unique request identifier (random string/number, for sorted set member)
+    ///
+    /// Note: The current timestamp is generated internally by Redis using the TIME command 
+    /// to ensure consistency across distributed nodes.
     ///
     /// Returns: { allowed (0|1), remaining, retryAfterMs }
     /// </summary>
     private const string SlidingWindowLuaScript = """
         local key = KEYS[1]
-        local now = tonumber(ARGV[1])
-        local window = tonumber(ARGV[2])
-        local limit = tonumber(ARGV[3])
-        local member = ARGV[4]
+        local window = tonumber(ARGV[1]) 
+        local limit = tonumber(ARGV[2])  
+        local member = ARGV[3]           
+        
+        -- Get time directly from Redis server to prevent local API clock drift
+        local redis_time = redis.call('TIME')
+        local now = tonumber(redis_time[1]) * 1000 + math.floor(tonumber(redis_time[2]) / 1000)
         
         -- Remove all entries outside the current sliding window
         redis.call('ZREMRANGEBYSCORE', key, 0, now - window)
@@ -75,17 +81,18 @@ internal sealed class RedisLuaRateLimiter
     {
         var db = _redis.GetDatabase();
         var key = $"{_options.RedisKeyPrefix}{clientId}";
-        var now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var windowMs = (long)_options.Window.TotalMilliseconds;
-        var uniqueMember = $"{now}:{Guid.NewGuid():N}";
+        
+        // Fast, low-allocation unique identifier for the sorted set
+        var uniqueMember = Random.Shared.NextInt64().ToString();
 
         var keys = new RedisKey[] { key };
+        
         var values = new RedisValue[]
         {
-            now,
-            windowMs,
-            _options.PermitLimit,
-            uniqueMember
+            windowMs,             // Maps to ARGV[1]
+            _options.PermitLimit, // Maps to ARGV[2]
+            uniqueMember          // Maps to ARGV[3]
         };
 
         RedisResult[]? result;
@@ -99,6 +106,11 @@ internal sealed class RedisLuaRateLimiter
 
             result = (RedisResult[]?)rawResult;
         }
+        catch (RedisException)
+        {
+            // Fail open: Keep the API online if the Redis node crashes or network partitions
+            return RateLimitResult.Allowed(_options.PermitLimit);
+        }
         catch (InvalidCastException)
         {
             // Fail open: allow the request if Redis returns an unexpected (non-array) result
@@ -107,7 +119,6 @@ internal sealed class RedisLuaRateLimiter
 
         if (result is null || result.Length < 3)
         {
-            // Fail open: allow the request if Redis returns an unexpected result
             return RateLimitResult.Allowed(_options.PermitLimit);
         }
 

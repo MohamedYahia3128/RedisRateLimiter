@@ -12,3 +12,4 @@ C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\ob
 C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.xml
 C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.pdb
 C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\ref\AspNetCore.RedisRateLimiter.dll
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\src\AspNetCore.RedisRateLimiter\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.sourcelink.json

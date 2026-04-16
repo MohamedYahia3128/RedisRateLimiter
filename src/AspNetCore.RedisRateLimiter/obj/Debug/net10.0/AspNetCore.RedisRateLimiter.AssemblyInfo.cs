@@ -16,7 +16,7 @@ using System.Reflection;
     "ses atomic Lua scripts to implement sliding window rate limiting with zero race " +
     "conditions."))]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3fc7e2cfc2d3ac94bfcab3210869564d04a38927")]
 [assembly: System.Reflection.AssemblyProductAttribute("AspNetCore.RedisRateLimiter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AspNetCore.RedisRateLimiter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

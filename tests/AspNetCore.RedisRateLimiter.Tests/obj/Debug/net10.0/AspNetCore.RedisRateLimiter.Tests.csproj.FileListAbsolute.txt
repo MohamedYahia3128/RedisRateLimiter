@@ -106,3 +106,4 @@ C:\Users\B.Yahia\Desktop\projects\RateLimiter\tests\AspNetCore.RedisRateLimiter.
 C:\Users\B.Yahia\Desktop\projects\RateLimiter\tests\AspNetCore.RedisRateLimiter.Tests\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.Tests.pdb
 C:\Users\B.Yahia\Desktop\projects\RateLimiter\tests\AspNetCore.RedisRateLimiter.Tests\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.Tests.genruntimeconfig.cache
 C:\Users\B.Yahia\Desktop\projects\RateLimiter\tests\AspNetCore.RedisRateLimiter.Tests\obj\Debug\net10.0\ref\AspNetCore.RedisRateLimiter.Tests.dll
+C:\Users\B.Yahia\Desktop\projects\RateLimiter\tests\AspNetCore.RedisRateLimiter.Tests\obj\Debug\net10.0\AspNetCore.RedisRateLimiter.Tests.sourcelink.json

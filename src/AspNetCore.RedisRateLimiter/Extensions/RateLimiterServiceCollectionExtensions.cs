@@ -37,11 +37,12 @@ public static class RateLimiterServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
         ArgumentException.ThrowIfNullOrWhiteSpace(redisConnectionString);
 
-        // Register the Redis connection multiplexer as a singleton
-        services.AddSingleton<IConnectionMultiplexer>(
-            _ => ConnectionMultiplexer.Connect(redisConnectionString));
+        var configurationOptions = ConfigurationOptions.Parse(redisConnectionString);
+        configurationOptions.AbortOnConnectFail = false;
 
-        // Configure the rate limiter options
+        services.AddSingleton<IConnectionMultiplexer>(
+            _ => ConnectionMultiplexer.Connect(configurationOptions));
+
         if (configureOptions is not null)
         {
             services.Configure(configureOptions);
@@ -51,7 +52,6 @@ public static class RateLimiterServiceCollectionExtensions
             services.Configure<RateLimiterOptions>(_ => { });
         }
 
-        // Register the internal rate limiter
         services.AddSingleton<RedisLuaRateLimiter>();
 
         return services;
