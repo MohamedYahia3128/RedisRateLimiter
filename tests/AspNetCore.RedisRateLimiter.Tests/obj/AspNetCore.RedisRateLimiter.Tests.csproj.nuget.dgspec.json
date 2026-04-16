@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\B.Yahia\\Desktop\\projects\\RateLimiter\\src\\AspNetCore.RedisRateLimiter\\AspNetCore.RedisRateLimiter.csproj",
-        "projectName": "AspNetCore.RedisRateLimiter",
+        "projectName": "RedisFlow.RateLimiting",
         "projectPath": "C:\\Users\\B.Yahia\\Desktop\\projects\\RateLimiter\\src\\AspNetCore.RedisRateLimiter\\AspNetCore.RedisRateLimiter.csproj",
         "packagesPath": "C:\\Users\\B.Yahia\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\B.Yahia\\Desktop\\projects\\RateLimiter\\src\\AspNetCore.RedisRateLimiter\\obj\\",

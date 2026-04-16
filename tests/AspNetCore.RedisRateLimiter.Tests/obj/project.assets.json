@@ -537,17 +537,17 @@
           "build/net6.0/xunit.runner.visualstudio.props": {}
         }
       },
-      "AspNetCore.RedisRateLimiter/1.0.0": {
+      "RedisFlow.RateLimiting/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "StackExchange.Redis": "2.0.0"
         },
         "compile": {
-          "bin/placeholder/AspNetCore.RedisRateLimiter.dll": {}
+          "bin/placeholder/RedisFlow.RateLimiting.dll": {}
         },
         "runtime": {
-          "bin/placeholder/AspNetCore.RedisRateLimiter.dll": {}
+          "bin/placeholder/RedisFlow.RateLimiting.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
@@ -1275,7 +1275,7 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
-    "AspNetCore.RedisRateLimiter/1.0.0": {
+    "RedisFlow.RateLimiting/1.0.0": {
       "type": "project",
       "path": "../../src/AspNetCore.RedisRateLimiter/AspNetCore.RedisRateLimiter.csproj",
       "msbuildProject": "../../src/AspNetCore.RedisRateLimiter/AspNetCore.RedisRateLimiter.csproj"
@@ -1283,10 +1283,10 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "AspNetCore.RedisRateLimiter >= 1.0.0",
       "FluentAssertions >= 8.*",
       "Microsoft.NET.Test.Sdk >= 17.*",
       "Moq >= 4.*",
+      "RedisFlow.RateLimiting >= 1.0.0",
       "xunit >= 2.*",
       "xunit.runner.visualstudio >= 2.*"
     ]
